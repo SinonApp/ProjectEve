@@ -1,6 +1,27 @@
 import json
 import requests
 
+# Example gateio
+[
+  {
+    "currency_pair": "BTC3L_USDT",
+    "last": "2.46140352",
+    "lowest_ask": "2.477",
+    "highest_bid": "2.4606821",
+    "change_percentage": "-8.91",
+    "change_utc0": "-8.91",
+    "change_utc8": "-8.91",
+    "base_volume": "656614.0845820589",
+    "quote_volume": "1602221.66468375534639404191",
+    "high_24h": "2.7431",
+    "low_24h": "1.9863",
+    "etf_net_value": "2.46316141",
+    "etf_pre_net_value": "2.43201848",
+    "etf_pre_timestamp": 1611244800,
+    "etf_leverage": "2.2803019447281203"
+  }
+]
+
 class UnifyParser:
 
     def __init__(self, url, exchange, params={}, headers={}):
@@ -52,7 +73,7 @@ class UnifyParser:
         match self.exchange:
             case 'binance':
                 for item in self.data:
-                    output.append({key: item[key] for key in ['symbol', 'lastPrice']})
+                    output.append({key: item[key] for key in ['symbol', 'price']})
             case 'bybit':
                 for item in self.data['result']:
                     output.append({key: item[key] for key in ['symbol', 'last_price']})
@@ -110,5 +131,8 @@ class UnifyParser:
                     data['symbol'] = item
                     data['last_price'] = self.data[item]['last_trade']
                     output.append(data)
+            case 'gateio':
+                for item in self.data:
+                    output.append({key: item[key] for key in ['currency_pair', 'last']})
 
         return output
