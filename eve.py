@@ -31,22 +31,7 @@ dict_exchanges = {
 
 }
 
-if len(args._get_args()) == 0:
-        parser.print_help()
-        exit()
-
 if __name__ == "__main__":
-    if args.list:
-        for key in dict_exchanges:
-            print(key)
-        exit()
-    if args.exchange in dict_exchanges:
-        exchange = dict_exchanges[args.exchange]
-        exchange.parse()
-        if args.symbol and args.to_symbol:
-            print(exchange.search_last_price(args.symbol, to_symbol=args.to_symbol))
-            print(exchange.search_last_price(args.symbol))
-        else:
-            print(exchange.format())
-    else:
-        print("Exchange not found")
+    exchange = dict_exchanges['exmo']
+    exchange.parse()
+    print(exchange.format())

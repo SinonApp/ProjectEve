@@ -15,7 +15,7 @@ class UnifyParser:
         if count_try > 3:
             self.data = None
             return None
-        markets = requests.get(url="https://api.upbit.com/v1/market/all", headers=self.headers)
+        markets = requests.get(url="https://api.upbit.com/v1/market/all", params=self.params, headers=self.headers)
         if markets.status_code == 200:
             markets = json.loads(markets.text)
             markets = [item['market'] for item in markets]
