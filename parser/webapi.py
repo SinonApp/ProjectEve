@@ -1,13 +1,8 @@
+from fastapi import FastAPI
 from .models import UnifyParser
-import argparse
-from .webapi import run
-import asyncio
+import uvicorn
 
-parser = argparse.ArgumentParser(description="Parser for Binance and Bybit")
-parser.add_argument("-e", "--exchange", help="Exchange name", type=str, default="binance")
-parser.add_argument("-l", "--list", help="List of exchanges", action="store_true")
-parser.add_argument("-w", "--web", help="Run web api", action="store_true")
-args = parser.parse_args()
+app = FastAPI()
 
 dict_exchanges = {
     "binance": UnifyParser(url="https://api.binance.com/api/v3/ticker/price", exchange="binance"),
@@ -36,17 +31,27 @@ dict_exchanges = {
 
 }
 
-if __name__ == "__main__":
-    if args.list:
-        for key in dict_exchanges:
-            print(key)
-        exit()
-    if args.web:
-        run()
-        exit()
-    if args.exchange in dict_exchanges:
-        exchange = dict_exchanges[args.exchange]
-        exchange.parse()
-        print(exchange.format())
-    else:
-        print("Exchange not found")
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+
+# Parse the data from the exchange
+@app.get("/parse/{exchange}")
+async def parse(exchange: str):
+    if exchange == 'all' or exchange in dict_exchanges:
+        match exchange:
+            case 'all':
+                data = {}
+                for exchange in dict_exchanges:
+                    dict_exchanges[exchange].parse()
+                    data[exchange] = dict_exchanges[exchange].format()
+                return data
+            case _:
+                dict_exchanges[exchange].parse()
+                return dict_exchanges[exchange].format()
+    return {"message": "Exchange not found"}
+
+# Run the server
+def run():
+    uvicorn.run(app, host="0.0.0.0", port=8000)

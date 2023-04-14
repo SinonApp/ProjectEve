@@ -49,75 +49,78 @@ class UnifyParser:
         output = []
         if self.data is None:
             return output
-        match self.exchange:
-            case 'binance':
-                for item in self.data:
-                    output.append({key: item[key] for key in ['symbol', 'price']})
-            case 'bybit':
-                for item in self.data['result']:
-                    output.append({key: item[key] for key in ['symbol', 'last_price']})
-            case 'coinsbit':
-                for item in self.data['result']:
-                    output.append({key: self.data['result'][item]['ticker'][key] for key in ['name', 'last']})
-            case 'bitfinex':
-                for item in self.data:
-                    output.append({'symbol': item[0], 'last_price': item[7]})
-            case 'mexc':
-                for item in self.data:
-                    output.append({key: item[key] for key in ['symbol', 'price']})
-            case 'kucoin':
-                for item in self.data['data']['ticker']:
-                    output.append({key: item[key] for key in ['symbol', 'last']})
-            case 'bitget':
-                for item in self.data['data']:
-                    output.append({key: item[key] for key in ['symbol', 'close']})
-            case 'lbank':
-                for item in self.data['data']:
-                    data = {}
-                    data['symbol'] = item['symbol']
-                    data['last_price'] = item['ticker']['latest']
-                    output.append(data)
-            case 'crypto':
-                for item in self.data['ticker']:
-                    output.append({key: item[key] for key in ['symbol', 'last']})
-            case 'bkex':
-                for item in self.data['data']:
-                    output.append({key: item[key] for key in ['symbol', 'price']})
-            case 'bitmart':
-                for item in self.data['data']['tickers']:
-                    output.append({key: item[key] for key in ['symbol', 'last_price']})
-            case 'upbit':
-                for item in self.data:
-                    output.append({key: item[key] for key in ['market', 'trade_price']})
-            case 'probit':
-                for item in self.data['data']:
-                    output.append({key: item[key] for key in ['market_id', 'last']})
-            case 'bittrex':
-                for item in self.data:
-                    output.append({key: item[key] for key in ['symbol', 'lastTradeRate']})
-            case 'okcoin':
-                for item in self.data['data']:
-                    output.append({key: item[key] for key in ['instId', 'last']})
-            case 'okx':
-                for item in self.data['data']:
-                    output.append({key: item[key] for key in ['instId', 'last']})
-            case 'poloniex':
-                for item in self.data:
-                    output.append({key: item[key] for key in ['symbol', 'close']})
-            case 'exmo':
-                for item in self.data:
-                    data = {}
-                    data['symbol'] = item
-                    data['last_price'] = self.data[item]['last_trade']
-                    output.append(data)
-            case 'gateio':
-                for item in self.data:
-                    output.append({key: item[key] for key in ['currency_pair', 'last']})
-            case 'coinw':
-                for item in self.data['data']:
-                    output.append({key: item[key] for key in ['symbol', 'latestDealPrice']})
-            case 'huobi':
-                for item in self.data['data']:
-                    output.append({key: item[key] for key in ['symbol', 'close']})
+        try:
+            match self.exchange:
+                case 'binance':
+                    for item in self.data:
+                        output.append({key: item[key] for key in ['symbol', 'price']})
+                case 'bybit':
+                    for item in self.data['result']:
+                        output.append({key: item[key] for key in ['symbol', 'last_price']})
+                case 'coinsbit':
+                    for item in self.data['result']:
+                        output.append({key: self.data['result'][item]['ticker'][key] for key in ['name', 'last']})
+                case 'bitfinex':
+                    for item in self.data:
+                        output.append({'symbol': item[0], 'last_price': item[7]})
+                case 'mexc':
+                    for item in self.data:
+                        output.append({key: item[key] for key in ['symbol', 'price']})
+                case 'kucoin':
+                    for item in self.data['data']['ticker']:
+                        output.append({key: item[key] for key in ['symbol', 'last']})
+                case 'bitget':
+                    for item in self.data['data']:
+                        output.append({key: item[key] for key in ['symbol', 'close']})
+                case 'lbank':
+                    for item in self.data['data']:
+                        data = {}
+                        data['symbol'] = item['symbol']
+                        data['last_price'] = item['ticker']['latest']
+                        output.append(data)
+                case 'crypto':
+                    for item in self.data['ticker']:
+                        output.append({key: item[key] for key in ['symbol', 'last']})
+                case 'bkex':
+                    for item in self.data['data']:
+                        output.append({key: item[key] for key in ['symbol', 'price']})
+                case 'bitmart':
+                    for item in self.data['data']['tickers']:
+                        output.append({key: item[key] for key in ['symbol', 'last_price']})
+                case 'upbit':
+                    for item in self.data:
+                        output.append({key: item[key] for key in ['market', 'trade_price']})
+                case 'probit':
+                    for item in self.data['data']:
+                        output.append({key: item[key] for key in ['market_id', 'last']})
+                case 'bittrex':
+                    for item in self.data:
+                        output.append({key: item[key] for key in ['symbol', 'lastTradeRate']})
+                case 'okcoin':
+                    for item in self.data['data']:
+                        output.append({key: item[key] for key in ['instId', 'last']})
+                case 'okx':
+                    for item in self.data['data']:
+                        output.append({key: item[key] for key in ['instId', 'last']})
+                case 'poloniex':
+                    for item in self.data:
+                        output.append({key: item[key] for key in ['symbol', 'close']})
+                case 'exmo':
+                    for item in self.data:
+                        data = {}
+                        data['symbol'] = item
+                        data['last_price'] = self.data[item]['last_trade']
+                        output.append(data)
+                case 'gateio':
+                    for item in self.data:
+                        output.append({key: item[key] for key in ['currency_pair', 'last']})
+                case 'coinw':
+                    for item in self.data['data']:
+                        output.append({key: item[key] for key in ['symbol', 'latestDealPrice']})
+                case 'huobi':
+                    for item in self.data['data']:
+                        output.append({key: item[key] for key in ['symbol', 'close']})
+        except Exception as e:
+            print(e)
 
         return output
