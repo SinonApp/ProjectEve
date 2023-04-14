@@ -5,6 +5,9 @@ import asyncio
 
 parser = argparse.ArgumentParser(description="Parser for Binance and Bybit")
 parser.add_argument("-e", "--exchange", help="Exchange name", type=str, default="binance")
+parser.add_argument("-c", "--currency", help="Name of currency: BTC", type=str)
+parser.add_argument("-q", "--quantity", help="Quantity for currency: USDT", type=str, default="USDT")
+
 parser.add_argument("-l", "--list", help="List of exchanges", action="store_true")
 parser.add_argument("-w", "--web", help="Run web api", action="store_true")
 args = parser.parse_args()
@@ -44,9 +47,22 @@ if __name__ == "__main__":
     if args.web:
         run()
         exit()
-    if args.exchange in dict_exchanges:
-        exchange = dict_exchanges[args.exchange]
-        exchange.parse()
-        print(exchange.format())
+    if args.exchange in dict_exchanges or args.exchange == "all":
+        if args.exchange == "all":
+            for key in dict_exchanges:
+                exchange = dict_exchanges[key]
+                exchange.parse()
+                data = exchange.format()
+                if args.currency:
+                    data = exchange.filtering(data, currency=args.currency, quantity=args.quantity)
+                if len(data) > 0:
+                    print(f"{key.upper()}: {data}")
+        else:
+            exchange = dict_exchanges[args.exchange]
+            exchange.parse()
+            data = exchange.format()
+            if args.currency:
+                data = exchange.filtering(data, currency=args.currency, quantity=args.quantity)
+            print(data)
     else:
         print("Exchange not found")

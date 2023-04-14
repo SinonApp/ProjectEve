@@ -1,9 +1,18 @@
 from parser.models import UnifyParser
 import argparse
 
+# Создание экземпляра объекта парсера аргументов командной строки
 parser = argparse.ArgumentParser(description="Parser for Binance and Bybit")
+
+# Добавление аргументов краткий вызов, полный вызов, справки, тип данных, значение по умолчанию
 parser.add_argument("-e", "--exchange", help="Exchange name", type=str, default="binance")
+
+# Добавление аргументов краткий вызов, полный вызов, справка, действие
 parser.add_argument("-l", "--list", help="List of exchanges", action="store_true")
+
+# Получение объекта с аргументами
+# args.exchange - значение аргумента exchange (тип данных str)
+# args.list - значение аргумента list (из-за действия store_true, значение True или False)
 args = parser.parse_args()
 
 # binance, bybit, coinsbit, bitfinex, mexc, kucoin, bitget, lbank, crypto, bkex, bitmart
