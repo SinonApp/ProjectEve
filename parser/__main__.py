@@ -6,7 +6,6 @@ parser.add_argument("-e", "--exchange", help="Exchange name", type=str, default=
 parser.add_argument("-l", "--list", help="List of exchanges", action="store_true")
 args = parser.parse_args()
 
-# binance, bybit, coinsbit, bitfinex, mexc, kucoin, bitget, lbank, crypto, bkex, bitmart
 dict_exchanges = {
     "binance": UnifyParser(url="https://api.binance.com/api/v3/ticker/price", exchange="binance"),
     "bybit": UnifyParser(url="https://api.bybit.com/v2/public/tickers", exchange="bybit"),
@@ -39,10 +38,6 @@ if __name__ == "__main__":
     if args.exchange in dict_exchanges:
         exchange = dict_exchanges[args.exchange]
         exchange.parse()
-        if args.symbol and args.to_symbol:
-            print(exchange.search_last_price(args.symbol, to_symbol=args.to_symbol))
-            print(exchange.search_last_price(args.symbol))
-        else:
-            print(exchange.format())
+        print(exchange.format())
     else:
         print("Exchange not found")
