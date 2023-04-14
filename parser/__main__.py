@@ -28,6 +28,8 @@ dict_exchanges = {
     'poloniex': UnifyParser(url="https://api.poloniex.com/markets/ticker24h", exchange="poloniex"),
     'exmo': UnifyParser(url="https://api.exmo.com/v1.1/ticker", exchange="exmo"),
     'gateio': UnifyParser(url="https://api.gateio.ws/api/v4/spot/tickers", exchange="gateio", headers={'accept': 'application/json', 'content-type': 'application/json'}),
+    'coinw': UnifyParser(url="https://www.coinw.com/appApi.html?action=symbols", exchange="coinw"),
+    'huobi': UnifyParser(url="https://api.huobi.pro/market/tickers", exchange="huobi"),
 
 }
 
