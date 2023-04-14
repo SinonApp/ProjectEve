@@ -210,13 +210,10 @@ class UnifyParser:
 
                 case 'exmo':  # exmo имеет проблему при получении данных со всех бирж
                     for item in self.data:
-                        try:
-                            data = {}
-                            data['symbol'] = item
-                            data['price'] = self.data[item]['last_trade']
-                            output.append(data)
-                        except:
-                            print(self.data)
+                        data = {}
+                        data['symbol'] = item
+                        data['price'] = self.data[item]['last_trade']
+                        output.append(data)
 
                 case 'gateio':
                     for item in self.data:
@@ -243,7 +240,6 @@ class UnifyParser:
     #                        output.append({key: item[key] for key in ['symbol', 'close']})
 
         except Exception as e:
-            print(f'Error in get_ticker {self.exchange}')
-            print(e)
+            pass
 
         return output

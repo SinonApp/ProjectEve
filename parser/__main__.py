@@ -56,7 +56,7 @@ if __name__ == "__main__":
                 if args.currency:
                     data = exchange.filtering(data, currency=args.currency, quantity=args.quantity)
                 if len(data) > 0:
-                    print(f"{key.upper()}: {data}")
+                    print(f"{key.upper()}: {data[0]['price']}")
         else:
             exchange = dict_exchanges[args.exchange]
             exchange.parse()
